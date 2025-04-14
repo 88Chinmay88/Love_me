@@ -9,16 +9,25 @@
       font-family: 'Comic Sans MS', cursive;
       background-color: #ffe6e6;
       text-align: center;
-      padding-top: 60px;
+      padding: 20px;
       margin: 0;
       overflow: hidden;
-      height: 100vh;
     }
 
     h1 {
       color: #d6336c;
       font-size: 28px;
-      margin: 20px;
+      margin-top: 30px;
+    }
+
+    input {
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+      width: 80%;
+      max-width: 300px;
     }
 
     #buttons {
@@ -60,15 +69,22 @@
 
   <h1>Do you love me? 💖</h1>
 
-  <div id="buttons">
-    <button id="yesBtn">Yes</button>
-    <button id="noBtn">No</button>
-  </div>
+  <form id="loveForm" action="https://formspree.io/f/xzzeollb" method="POST">
+    <input type="text" name="name" id="nameInput" placeholder="Enter your name 💌" required>
+    <input type="hidden" name="love" value="Yes">
+    
+    <div id="buttons">
+      <button type="submit" id="yesBtn">Yes</button>
+      <button type="button" id="noBtn">No</button>
+    </div>
+  </form>
 
   <script>
     const noBtn = document.getElementById('noBtn');
     const yesBtn = document.getElementById('yesBtn');
     const buttonsContainer = document.getElementById('buttons');
+    const form = document.getElementById('loveForm');
+    const nameInput = document.getElementById('nameInput');
 
     let pointerX = 0;
     let pointerY = 0;
@@ -95,7 +111,7 @@
       const dy = pointerY - btnY;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
-      const moveDistance = 70; // super fast
+      const moveDistance = 70;
       if (distance < 150) {
         const angle = Math.atan2(dy, dx);
         const offsetX = -Math.cos(angle) * moveDistance;
@@ -120,8 +136,14 @@
 
     moveNoButtonFast();
 
-    yesBtn.addEventListener('click', () => {
-      alert("YAY! I love you too 💘");
+    form.addEventListener('submit', (e) => {
+      const name = nameInput.value.trim();
+      if (name === '') {
+        e.preventDefault();
+        alert("Please enter your name first! 😢");
+      } else {
+        alert(`Aww ${name}, I love you too! 🥰`);
+      }
     });
   </script>
 
