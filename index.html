@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Do You Love Me?</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #ffe6e6;
+      text-align: center;
+      padding-top: 100px;
+      cursor: default;
+      transition: cursor 0.2s ease;
+      overflow: hidden;
+    }
+
+    h1 {
+      color: #d6336c;
+      font-size: 36px;
+    }
+
+    #buttons {
+      margin-top: 40px;
+      position: relative;
+      height: 400px;
+    }
+
+    button {
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.1s;
+    }
+
+    #yesBtn {
+      background-color: #28a745;
+      color: white;
+      position: relative;
+      z-index: 2;
+    }
+
+    #noBtn {
+      background-color: #dc3545;
+      color: white;
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Do you love me? 💖</h1>
+
+  <div id="buttons">
+    <button id="yesBtn">Yes</button>
+    <button id="noBtn">No</button>
+  </div>
+
+  <script>
+    const noBtn = document.getElementById('noBtn');
+    const yesBtn = document.getElementById('yesBtn');
+    const buttonsContainer = document.getElementById('buttons');
+
+    let mouseX = 0;
+    let mouseY = 0;
+
+    document.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+    });
+
+    function moveNoButtonFast() {
+      const btnRect = noBtn.getBoundingClientRect();
+      const btnX = btnRect.left + btnRect.width / 2;
+      const btnY = btnRect.top + btnRect.height / 2;
+
+      const dx = mouseX - btnX;
+      const dy = mouseY - btnY;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      const moveDistance = 60; // FAST movement
+      if (distance < 200) {
+        const angle = Math.atan2(dy, dx);
+        const offsetX = -Math.cos(angle) * moveDistance;
+        const offsetY = -Math.sin(angle) * moveDistance;
+
+        let newLeft = noBtn.offsetLeft + offsetX;
+        let newTop = noBtn.offsetTop + offsetY;
+
+        const maxLeft = buttonsContainer.clientWidth - noBtn.offsetWidth;
+        const maxTop = buttonsContainer.clientHeight - noBtn.offsetHeight;
+
+        newLeft = Math.max(0, Math.min(maxLeft, newLeft));
+        newTop = Math.max(0, Math.min(maxTop, newTop));
+
+        noBtn.style.left = `${newLeft}px`;
+        noBtn.style.top = `${newTop}px`;
+      }
+
+      requestAnimationFrame(moveNoButtonFast);
+    }
+
+    moveNoButtonFast();
+
+    yesBtn.addEventListener('click', () => {
+      alert("Awww! I knew you did! I Love You 2 🥰💘");
+    });
+  </script>
+
+</body>
+</html>
